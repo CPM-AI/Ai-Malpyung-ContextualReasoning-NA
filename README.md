@@ -48,41 +48,40 @@
 - Full-Tuning을 돌린 이유는 [LIMA](https://arxiv.org/pdf/2305.11206) 논문을 참고하여, 50,000건의 alpaca 데이터로 파인튜닝한 결과보다, 1,000건의 양질의 데이터셋으로 Full-Tuning을 하였을 때, 더 우수한 성능을 발휘하여 이번에 Full-Tuning을 진행하였고, 리더보드 결과 95점 -> 97점으로 높은 성능 향상을 이뤄낼 수 있었습니다.
 
 <details>
-<summary>QLoRA HyperParameter</summary>
-- `lora_r`: 16
-- `lora_alpha`: 32
-- `lora_dropout`: 0.05
-- 'lora_target_linear': true
+<summary>HyperParameter</summary>
+- 'QLORA' 
+  - `lora_r`: 16
+  - `lora_alpha`: 32
+  - `lora_dropout`: 0.05
+  - 'lora_target_linear': true
+  - 'load_in_4bit': true
+  - `torch_dtype`: bfloat16
+  - `seed`: 42
+  - `epoch`: 5
+  - `micro_batch_size`: 4
+  - `weight_decay`: 0.05
+  - 'weight_ratio' : 0.1
+  - `lr_scheduler_type`: "cosine"
+  - `warmup_steps`: 20
+  - 'learning_rate': 2e-5
+  - 'optimizer' : 'adamw_bnb_8bit'
+  - `gradient_accumulation_steps`: 4
+  - `gradient_checkpointing`: True
+  - `max_seq_length`: 1024
 
-<summary>TrainArgumentsr</summary>
-- 'load_in_4bit': true
-- `torch_dtype`: bfloat16
-- `seed`: 42
-- `epoch`: 5
-- `micro_batch_size`: 4
-- `weight_decay`: 0.05
-- 'weight_ratio' : 0.1
-- `lr_scheduler_type`: "cosine"
-- `warmup_steps`: 20
-- 'learning_rate': 2e-5
-- 'optimizer' : 'adamw_bnb_8bit'
-- `gradient_accumulation_steps`: 4
-- `gradient_checkpointing`: True
-- `max_seq_length`: 1024
-
-<summary>Full-Tuning Parameter</summary>
-- `torch_dtype`: bfloat16
-- `seed`: 42
-- `epoch`: 5
-- `micro_batch_size`: 3
-- `weight_decay`: 0.05
-- `lr_scheduler`: "cosine"
-- `warmup_steps`: 20
-- 'learning_rate': 2e-5
-- 'optimizer' : 'adamw_bnb_8bit'
-- `gradient_accumulation_steps`: 5
-- `gradient_checkpointing`: True
-- `max_seq_length`: 1024
-- 'sample_packing' : true
-- 'pad_to_sequence_len' : true
+- 'Full-Tuning'
+  - `torch_dtype`: bfloat16
+  - `seed`: 42
+  - `epoch`: 5
+  - `micro_batch_size`: 3
+  - `weight_decay`: 0.05
+  - `lr_scheduler`: "cosine"
+  - `warmup_steps`: 20
+  - 'learning_rate': 2e-5
+  - 'optimizer' : 'adamw_bnb_8bit'
+  - `gradient_accumulation_steps`: 5
+  - `gradient_checkpointing`: True
+  - `max_seq_length`: 1024
+  - 'sample_packing' : true
+  - 'pad_to_sequence_len' : true
 </details>
