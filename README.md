@@ -16,7 +16,7 @@
   이렇게 수집한 데이터는 SFT+DPO보다 더 높은 성능을 발휘하고 이를 현재 학습된 언어모델에 적용하여, 특정 Task 위주로 학습하면 발생되는 Logit 분포의 불균형을 해소하였고, 언어 모델의 망각현상을 줄이는데 기여하였습니다.
 
 <div align='center'>
-  <img src = "image/magpie.webp" with="250">
+  <img src = "image/magpie.png" with="250">
 </div>
 
 ### 1-2. 데이터 전처리
