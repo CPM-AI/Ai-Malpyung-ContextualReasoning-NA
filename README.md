@@ -153,10 +153,9 @@ outputs = model.generate(input_ids=inputs.to(model.device),
                          streamer=streamer
                         )
 ```
-<div align='center'>
-  <img src = "image/Orpo.png" with="250">
-</div>
-
 ## 6. 추후 연구 계획
 - 추후 연구 계획으로, 최근 강화학습 방식으로 Orpo Tuning을 진행 할 예정입니다.
 - 기존에는 SFT + DPO로 모델들의 연구들이 주로 진행이 되는데, Orpo는 SFT 과정없이 DPO와 같이 선호/비선호도 데이터셋으로 구성이 되어, 선호도 데이터에는 DPO처럼 우선순위를 부여하지만, 비선호 데이터셋에서는 로그 우도 함수를 통해 패널티를 부여하여, 대화맥락을 추론 할 때, 좀 더 높은 성능과 함께 계산에 사용되는 시간과 리소스를 줄여서 추후에 진행 할 예정입니다.
+<div align='center'>
+  <img src = "image/Orpo.png" with="250">
+</div>
