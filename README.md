@@ -20,3 +20,24 @@
 </div>
 
 ### 1-2. 데이터 전처리
+- 전처리는 크게 4가지 방법을 사용하였습니다.
+  1. 대화문에서 특수문자와 불용어가 존재하였는데, 이를 필터링하여 제거하였습니다.
+  2. 공개적으로 수집한 데이터셋에서 중복을 제거하기 위해 [Simhash](https://github.com/1e0ng/simhash) 을 활용하였습니다.
+  3. 미세조정을 수행하기 위해 대화 모델에 맞는 chat_template을 alpaca 형식으로 전처리를 수행하였습니다.
+  4. 마지막으로, 모두의 말뭉치와 첨삭 데이터셋에서 [Knowledge Distilization](https://arxiv.org/pdf/2306.08543)을 활용하여 Sota 모델에서 나온 지식을 소형 모델에 지식을 증류하는 방식으로 데이터 증강을 수행하였습니다.
+
+ ## 2. 모델 선택 개요
+ 이번 대화 맥락 추론에서 사용된 모델의 종류는 5가지 입니다.
+ - [MLP-KTLim/llama-3-Korean-Bllossom-8B](https://huggingface.co/MLP-KTLim/llama-3-Korean-Bllossom-8B)
+ - [cpm-ai/Ocelot-Ko-self-instruction-10.8B-v1.0](https://huggingface.co/cpm-ai/Ocelot-Ko-self-instruction-10.8B-v1.0)
+ - [THUDM/glm-4-9b-chat](https://huggingface.co/THUDM/glm-4-9b-chat)
+ - [Qwen/Qwen2-7B-Instruct](Qwen/Qwen2-7B-Instruct)
+ - [google/gemma-2-9b-it](https://huggingface.co/google/gemma-2-9b-it)
+
+   이 중에서 우리는 최첨단 언어 모델인 Gemma2를 채택하였습니다
+
+   ### 2-1. 모델 선택 이유
+   - 현재 Gemma2의 경우, 슬라이딩 윈도우 어텐션을 도입하였는데, 이를 통해 계산 비용을 줄이고, 긴 문장을 처리하는데 용이함. 그래서 일상대화와 같이 긴 대화문에 유용하다고 판단하여 모델을 채택하였습니다.
+   - 그리고 Gemma2는  Logit Soft Capping을 사용하였는데, 이를 통해 로짓값의 분포를 고르게하여, 안정적인 미세조정을 수행할 수 있어 최종적으로 Gemma2를 채택하게 되었습니다.
+  
+   ## 3. 모델링
