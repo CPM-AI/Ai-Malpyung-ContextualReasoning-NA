@@ -153,6 +153,9 @@ outputs = model.generate(input_ids=inputs.to(model.device),
                          streamer=streamer
                         )
 ```
+<div align='center'>
+  <img src = "image/Orpo.png" with="250">
+</div>
 
 ## 6. 추후 연구 계획
 - 추후 연구 계획으로, 최근 강화학습 방식으로 Orpo Tuning을 진행 할 예정입니다.
