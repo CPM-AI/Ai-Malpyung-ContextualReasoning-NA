@@ -86,3 +86,73 @@
   - 'sample_packing' : true
   - 'pad_to_sequence_len' : true
 </details>
+
+## 4. 학습 및 평가결과
+<div align='center'>
+  <img src = "image/대화맥락추론.png" with="250">
+</div>
+<div align='center'>
+  <img src = "image/리더보드-대화맥락.png" with="250">
+</div>
+- 학습 결과 Loss값은 13으로 시작하여 점점 0으로 수렴하여 성공적으로 학습을 하였습니다.
+- 평가 결과로, 두 단계를 거쳐 학습을 진행하여 97.85점으로 높은 점수를 받을 수 있었습니다.
+
+## 5. 모델 사용 방법
+```python
+import torch
+from transformers import AutoTokenizer, AutoModelForCausalLM, TextStreamer
+
+BASE_MODEL = "cpm-ai/gemma2-maerak-sota"
+model = AutoModelForCausalLM.from_pretrained(BASE_MODEL,torch_dtype=torch.float16, device_map={"":0},)
+tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL)
+streamer = TextStreamer(tokenizer)
+
+
+chat = [
+    { "role": "user", "content": """[Conversation]
+화자1: 복수전공이면 엄청 힘들었을 것 같은데요
+화자2: 엄마 집에 있으니까 단점이 있어요
+화자1: 어떤 단점이지요
+화자2: 화장실 이용
+화자1: 계속 말 것이나요
+화자2: 엄마가 맨날 거실에 계시는데
+화자1: 아 겹치나요
+화자2: 거실에 화장실이 있거든요
+화자2: 큰 볼일을 못 보겠어요
+화자1: 아 이럴 수가
+화자2: 제가 화장실을 가리거든요
+화자1: 음악을 크게 틀어 놓는 건 어떤가요
+화자1: 배 아프면 일상 생활이 잘 안 되잖아요
+화자2: 그게 더 티나잖아요
+화자1: 그렇다면 차라리 방귀 뀌는음을 다운 받아서 틀어 놓고 편하게 사세요
+화자2: 음파가 다르답니다 뚫고나와요
+화자2: 그래서 제가 아침 일찍
+화자1: 누가 방귀 뀌는 g 똥 싸는지 모르게 한번 틀어 놓고 싸 보세요
+화자2: 카페로 옵니다
+화자2: 화장실이 세 칸 있어요
+화자1: 카페 등 편한 가요
+화자1: 화장실에 사람 많이 없네요
+화자2: 여기서 편하게 봐요
+화자2: 아침엔 카페에 사람이 없어요
+
+[Question]
+위 대화의 원인으로 올바른 지문은?
+
+[Option]
+A. 화자2의 자취 집에 있는 거실 화장실은 방음이 잘 안된다.
+B. 화자2의 어머님 집 거실에 있는 화장실은 방음이 잘 안된다.
+C. 화자2의 어머님 집 거실에 있는 화장실은 방음이 잘된다.""" },
+]
+
+prompt = tokenizer.apply_chat_template(chat, tokenize=False, add_generation_prompt=True)
+inputs = tokenizer.encode(prompt, add_special_tokens=False, return_tensors="pt")
+outputs = model.generate(input_ids=inputs.to(model.device), 
+                         max_new_tokens=1024,
+                         do_sample=False,
+                         streamer=streamer
+                        )
+```
+
+## 6. 추후 연구 계획
+- 추후 연구 계획으로, 최근 강화학습 방식으로 Orpo Tuning을 진행 할 예정입니다.
+- 기존에는 SFT + DPO로 모델들의 연구들이 주로 진행이 되는데, Orpo는 SFT 과정없이 DPO와 같이 선호/비선호도 데이터셋으로 구성이 되어, 선호도 데이터에는 DPO처럼 우선순위를 부여하지만, 비선호 데이터셋에서는 로그 우도 함수를 통해 패널티를 부여하여, 대화맥락을 추론 할 때, 좀 더 높은 성능과 함께 계산에 사용되는 시간과 리소스를 줄여서 추후에 진행 할 예정입니다.
