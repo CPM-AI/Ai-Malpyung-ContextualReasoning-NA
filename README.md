@@ -78,13 +78,13 @@
   - `weight_decay`: 0.05
   - `lr_scheduler`: "cosine"
   - `warmup_steps`: 20
-  - 'learning_rate': 2e-5
-  - 'optimizer' : 'adamw_bnb_8bit'
+  - `learning_rate`: 2e-5
+  - `optimizer`: 'adamw_bnb_8bit'
   - `gradient_accumulation_steps`: 5
   - `gradient_checkpointing`: True
   - `max_seq_length`: 1024
-  - 'sample_packing' : true
-  - 'pad_to_sequence_len' : true
+  - `sample_packing` : true
+  - `pad_to_sequence_len` : true
 </details>
 
 ## 4. 학습 및 평가결과
