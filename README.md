@@ -54,18 +54,18 @@
   - `lora_r`: 16
   - `lora_alpha`: 32
   - `lora_dropout`: 0.05
-  - 'lora_target_linear': true
-  - 'load_in_4bit': true
+  - `lora_target_linear`: true
+  - `load_in_4bit`: true
   - `torch_dtype`: bfloat16
   - `seed`: 42
   - `epoch`: 5
   - `micro_batch_size`: 4
   - `weight_decay`: 0.05
-  - 'weight_ratio' : 0.1
+  - `weight_ratio` : 0.1
   - `lr_scheduler_type`: "cosine"
   - `warmup_steps`: 20
-  - 'learning_rate': 2e-5
-  - 'optimizer' : 'adamw_bnb_8bit'
+  - `learning_rate`: 2e-5
+  - `optimizer` : 'adamw_bnb_8bit'
   - `gradient_accumulation_steps`: 4
   - `gradient_checkpointing`: True
   - `max_seq_length`: 1024
